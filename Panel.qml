@@ -28,7 +28,6 @@ Panel {
 
   function open() {
     openedFromHotkey = false
-    setCenterHoverRevealSuppressed(false)
     root.controller.show()
     refresh()
   }
@@ -37,13 +36,9 @@ Panel {
     openedFromHotkey = true
     root.controller.show()
     refresh()
-    Qt.callLater(function() {
-      if (root.opened) setCenterHoverRevealSuppressed(true)
-    })
   }
 
   function close() {
-    setCenterHoverRevealSuppressed(false)
     root.controller.hide()
   }
 
@@ -56,11 +51,6 @@ Panel {
     if (root.bar && typeof root.bar.switchPanelFrom === "function")
       return root.bar.switchPanelFrom(root.barIdentity, direction)
     return false
-  }
-
-  function setCenterHoverRevealSuppressed(value) {
-    if (root.bar && "centerHoverRevealSuppressed" in root.bar)
-      root.bar.centerHoverRevealSuppressed = value
   }
 
   function refresh() {
@@ -80,7 +70,6 @@ Panel {
     owner: root.barIdentity
     bar: root.bar
     open: root.opened
-    centerOnBar: true
     focusTarget: keyCatcher
     contentWidth: panel.fittedContentWidth(Style.space(380))
     contentHeight: panel.fittedContentHeight(content.implicitHeight)
@@ -161,8 +150,8 @@ Panel {
               id: seekSlider
               width: parent.width
               bar: root.bar
-              minimum: 0
-              maximum: root.service && root.service.duration > 0 ? root.service.duration : 1
+              minimum: root.service ? root.service.chapterStart : 0
+              maximum: root.service && root.service.chapterEndTime > minimum ? root.service.chapterEndTime : minimum + 1
               value: root.service ? root.service.position : 0
               step: root.service ? root.service.skipSeconds : 30
               enabled: root.service && root.service.loaded
@@ -176,7 +165,7 @@ Panel {
               Text {
                 id: elapsedText
                 anchors.left: parent.left
-                text: Library.formatTime(seekSlider.dragging ? seekSlider.liveValue : (root.service ? root.service.position : 0))
+                text: Library.formatTime(root.service ? (seekSlider.dragging ? seekSlider.liveValue : root.service.position) - root.service.chapterStart : 0)
                 color: root.dim
                 font.family: root.fontFamily
                 font.pixelSize: Style.font.caption
@@ -184,7 +173,7 @@ Panel {
 
               Text {
                 anchors.horizontalCenter: parent.horizontalCenter
-                text: root.service ? Library.formatPercent(seekSlider.dragging ? seekSlider.liveValue : root.service.position, root.service.duration) : ""
+                text: root.service ? Library.formatPercent((seekSlider.dragging ? seekSlider.liveValue : root.service.position) - root.service.chapterStart, root.service.chapterEndTime - root.service.chapterStart) : ""
                 color: root.fg
                 font.family: root.fontFamily
                 font.pixelSize: Style.font.caption
@@ -193,7 +182,7 @@ Panel {
 
               Text {
                 anchors.right: parent.right
-                text: Library.formatTime(root.service ? root.service.duration : 0)
+                text: Library.formatTime(root.service ? root.service.chapterEndTime - root.service.chapterStart : 0)
                 color: root.dim
                 font.family: root.fontFamily
                 font.pixelSize: Style.font.caption

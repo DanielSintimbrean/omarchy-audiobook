@@ -51,6 +51,10 @@ Item {
   property bool eofReached: false
   readonly property var currentChapter: chapterIndex >= 0 && chapterIndex < chapters.length ? chapters[chapterIndex] : null
   readonly property string chapterTitle: currentChapter ? String(currentChapter.title || ("Chapter " + (chapterIndex + 1))) : ""
+  // Bounds of the current chapter in absolute book seconds; the whole book
+  // when the file has no chapters. The seek bar and time labels span these.
+  readonly property real chapterStart: currentChapter ? (Number(currentChapter.time) || 0) : 0
+  readonly property real chapterEndTime: currentChapter ? chapterEnd(chapterIndex) : duration
 
   property real pendingSeek: -1
   property bool pendingPlay: false

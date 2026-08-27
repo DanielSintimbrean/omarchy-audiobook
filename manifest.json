@@ -20,7 +20,7 @@
     "description": "Audiobook player with chapter list, progress and resume",
     "category": "Media",
     "allowMultiple": false,
-    "defaultSection": "center",
+    "defaultSection": "right",
     "defaults": {
       "library": "~/Audiobooks"
     },

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.danielsintimbrean.audiobook",
+  "name": "Audiobook",
+  "version": "0.1.0",
+  "author": "Daniel Sintimbrean",
+  "license": "MIT",
+  "description": "Audiobook player in the bar: mpv-backed, chapters, progress, resumes where you paused",
+  "kinds": [
+    "service",
+    "bar-widget"
+  ],
+  "keepLoaded": true,
+  "entryPoints": {
+    "service": "Service.qml",
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Audiobook",
+    "description": "Audiobook player with chapter list, progress and resume",
+    "category": "Media",
+    "allowMultiple": false,
+    "defaultSection": "center",
+    "defaults": {
+      "library": "~/Audiobooks"
+    },
+    "schema": [
+      { "key": "library", "type": "string", "label": "Library folder" }
+    ]
+  }
+}

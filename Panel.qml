@@ -1,5 +1,6 @@
 import QtQuick
 import qs.Commons
+import qs.Commons as Commons
 import qs.Ui
 import "Library.js" as Library
 
@@ -19,7 +20,7 @@ Panel {
   readonly property var barIdentity: hostWidget || root
   readonly property bool hasBook: service ? service.hasBook : false
   readonly property bool showLibrary: libraryMode || !hasBook
-  readonly property color fg: bar ? bar.foreground : Color.foreground
+  readonly property color fg: bar ? bar.foreground : Commons.Color.foreground
   readonly property color dim: Qt.darker(fg, 1.4)
   readonly property color dimmer: Qt.darker(fg, 1.8)
   readonly property string fontFamily: bar ? bar.fontFamily : Style.font.family
@@ -335,8 +336,8 @@ Panel {
                   width: chapterList.width
                   height: chapterInner.implicitHeight + Style.space(8)
                   radius: Style.spacing.labelGap
-                  color: selected ? Style.selectedFillFor(root.fg, Color.accent) : (chapterMouse.containsMouse ? Style.hoverFillFor(root.fg, Color.accent) : "transparent")
-                  borderSpec: selected ? Border.controlSpec("normal", root.fg, Color.accent) : Border.none()
+                  color: selected ? Style.selectedFillFor(root.fg, Commons.Color.accent) : (chapterMouse.containsMouse ? Style.hoverFillFor(root.fg, Commons.Color.accent) : "transparent")
+                  borderSpec: selected ? Border.controlSpec("normal", root.fg, Commons.Color.accent) : Border.none()
 
                   Row {
                     id: chapterInner
@@ -481,8 +482,8 @@ Panel {
                   width: bookList.width
                   height: bookInner.implicitHeight + Style.space(10)
                   radius: Style.spacing.labelGap
-                  color: selected ? Style.selectedFillFor(root.fg, Color.accent) : (bookMouse.containsMouse ? Style.hoverFillFor(root.fg, Color.accent) : "transparent")
-                  borderSpec: selected ? Border.controlSpec("normal", root.fg, Color.accent) : Border.none()
+                  color: selected ? Style.selectedFillFor(root.fg, Commons.Color.accent) : (bookMouse.containsMouse ? Style.hoverFillFor(root.fg, Commons.Color.accent) : "transparent")
+                  borderSpec: selected ? Border.controlSpec("normal", root.fg, Commons.Color.accent) : Border.none()
 
                   Row {
                     id: bookInner
